@@ -1,0 +1,6 @@
+renter route
+fine
+login and authentication
+transaction
+understand how to render pages and from where - routes
+call relevant mysql function upon button pressing - figure out how
