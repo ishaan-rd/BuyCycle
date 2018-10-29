@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require(path)
 
+const usersRouter = require('./routes/users')
+const feedbackRouter = require('./routes/feedback')
+
 
 var app = express()
 
@@ -12,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 app.use('/', index)
-app.use('/users', users)
-app.use('/feedback', feedback)
+app.use('/users', usersRouter)
+app.use('/feedback', feedbackRouter)
 
 app.use(express.static(path.join(__dirname, 'public')))
 
