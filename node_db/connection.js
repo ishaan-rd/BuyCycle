@@ -16,12 +16,3 @@ con.connect(function(err) {
     console.log("Table created")
   })
 })
-
-function insertValues(table, values) {
-  // see how to insert array of values from a form into database
-  var sql = "insert into ${table} values();";
-  con.query(sql, (err, result) => {
-    if (err) throw err
-    console.log('Value inserted')
-  })
-}
