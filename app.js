@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const logger = require('morgan')
 
+var createSchema = require('./node_db/tables.js')
+
 const indexRouter = require('./routes/index')
 const feedbackRouter = require('./routes/feedback')
 const fineRouter = require('./routes/fine')
@@ -45,5 +47,7 @@ app.use(function(err, req, res, next) {
 })
 
 app.listen(process.env.PORT || port, () => console.log(`Server started running on port: ${port}`));
+
+createSchema.createTables();
 
 module.exports = app
