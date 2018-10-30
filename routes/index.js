@@ -9,13 +9,7 @@ router.use(bodyParser.json());
 router.route('/')
 .get((req, res, next) => {
     res.statusCode = 200
-    
-    var sql = `select * from Bicycle`
-    db.query(sql, (err, results, fields) => {
-        if (err) throw err;
-        console.log(results)
-        res.send(results)
-    })
+    res.render('index', { title: 'Index' })
 })
 .post((req, res, next) => {
     

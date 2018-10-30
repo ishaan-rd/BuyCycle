@@ -3,6 +3,18 @@ var db = require('../db.js')
 module.exports = {
   createTables: () => {
     var sql = "CREATE TABLE if not exists \
+    users                                 \
+    (                                     \
+      username varchar(15) PRIMARY KEY,   \
+      email varchar(100) UNIQUE,          \
+      password binary(60)                 \
+    );"
+    db.query(sql, function (err, result) {
+      if (err) throw err
+      console.log("User created")
+    })
+
+    var sql = "CREATE TABLE if not exists \
     Owner                                 \
     (                                     \
       First_Name varchar(20) NOT NULL,    \

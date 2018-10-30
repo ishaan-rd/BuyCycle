@@ -7,8 +7,7 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get((req, res, next) => {
-    res.statusCode = 200
-    res.render('feedback', { title: 'Feedback' })
+    
 })
 .post((req, res, next) => {
     

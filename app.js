@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const expressValidator = require('express-validator')
 
 var createSchema = require('./node_db/tables.js')
 
@@ -10,6 +12,8 @@ const feedbackRouter = require('./routes/feedback')
 const fineRouter = require('./routes/fine')
 const profileRouter = require('./routes/profile')
 const rentRouter = require('./routes/rent')
+const signinRouter = require('./routes/signin')
+const signupRouter = require('./routes/signup')
 const transationsRouter = require('./routes/transactions')
 const usersRouter = require('./routes/users')
 
@@ -17,10 +21,15 @@ const port = 5000;
 
 var app = express()
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
 app.use(logger('dev'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(expressValidator([]))
+app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
@@ -28,6 +37,8 @@ app.use('/feedback', feedbackRouter)
 app.use('/fine', fineRouter)
 app.use('/profile', profileRouter)
 app.use('/rent', rentRouter)
+app.use('/signin', signinRouter)
+app.use('/signup', signupRouter)
 app.use('/transactions', transationsRouter)
 app.use('/users', usersRouter)
 
@@ -42,12 +53,35 @@ app.use(function(err, req, res, next) {
     res.locals.message = err.message
     res.locals.error = req.app.get('env') === 'development' ? err : {}
 
+    // render the error page
     res.status(err.status || 500)
     res.render('error')
 })
 
-app.listen(process.env.PORT || port, () => console.log(`Server started running on port: ${port}`));
+// Handlebars default config
+const hbs = require('hbs')
+const fs = require('fs')
 
-createSchema.createTables();
+const partialsDir = __dirname + '/views/partials'
+
+const filenames = fs.readdirSync(partialsDir)
+
+filenames.forEach(function (filename) {
+  const matches = /^([^.]+).hbs$/.exec(filename)
+  if (!matches) {
+    return
+  }
+  const name = matches[1]
+  const template = fs.readFileSync(partialsDir + '/' + filename, 'utf8')
+  hbs.registerPartial(name, template)
+})
+
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context, null, 2)
+})
+
+app.listen(process.env.PORT || port, () => console.log(`Server started running on port: ${port}`))
+
+createSchema.createTables()
 
 module.exports = app
