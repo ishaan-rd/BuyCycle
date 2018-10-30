@@ -1,19 +1,30 @@
 const express = require('express')
-var router = express.Router()
-var bodyParser = require('body-parser')
+const router = express.Router()
+const bodyParser = require('body-parser')
+const db = require('../db.js')
 
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
-// Get Home page
-router.get('/', (req, res, next) => {
+router.route('/')
+.get((req, res, next) => {
+    res.statusCode = 200
+    
+    var sql = `select * from Bicycle`
+    db.query(sql, (err, results, fields) => {
+        if (err) throw err;
+        console.log(results)
+        res.send(results)
+    })
+})
+.post((req, res, next) => {
+    
+})
+.put((req, res, next) => {
 
 })
-
-router.get('/profile', (req, res, next) => {
-
+.delete((req, res, next) => {
+    
 })
 
-router.post('/profile', (req, res, next) => {
-
-})
-
-module.exports = router;
+module.exports = router

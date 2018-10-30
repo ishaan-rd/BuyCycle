@@ -1,17 +1,18 @@
-var mysql = require('mysql');
+var mysql = require('mysql')
 
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "mysql@6298",
   database: "dbms_project"
-});
+})
 
 con.connect(function(err) {
   if (err) throw err
   console.log("Connected!")
   
-  var sql = "CREATE TABLE Owner         \
+  var sql = "CREATE TABLE if not exists \
+  Owner                                 \
   (                                     \
     First_Name varchar(20) NOT NULL,    \
     Last_Name varchar(20) NOT NULL,     \
@@ -28,7 +29,8 @@ con.connect(function(err) {
     console.log("Table created")
   })
 
-  var sql = "CREATE TABLE Renter        \
+  sql = "CREATE TABLE if not exists     \
+  Renter                                \
   (                                     \
     First_Name varchar(20) NOT NULL,    \
     Last_Name varchar(20) NOT NULL,     \
@@ -43,7 +45,8 @@ con.connect(function(err) {
     console.log("Table created")
   })
 
-  var sql = "CREATE TABLE Bicycle                               \
+  sql = "CREATE TABLE if not exists                             \
+  Bicycle                                                       \
   (                                                             \
     Bicycle_id INT AUTO_INCREMENT NOT NULL,                     \
     Bicycle_Condition varchar(3) NOT NULL,                      \
@@ -54,14 +57,15 @@ con.connect(function(err) {
     Availability varchar(5) NOT NULL,                           \
     Bi_Own_Roll varchar(7),                                     \
     PRIMARY KEY (Bicycle_id, Bi_Own_Roll),                      \
-    FOREIGN KEY (Bi_Own_Roll) REFERENCES Owner(Own_Roll_Number) \
+    FOREIGN KEY (Bi_Own_Roll) REFERENCES Owner(Own_Roll_Number) on delete set null \
   );"
   con.query(sql, function (err, result) {
     if (err) throw err
     console.log("Table created")
   })
 
-  var sql = "CREATE TABLE Feedback                              \
+  sql = "CREATE TABLE if not exists                             \
+  Feedback                                                      \
   (                                                             \
     Feedback_Data varchar(100) NOT NULL,                        \
     feedback_date DATE NOT NULL,                                \
@@ -69,15 +73,16 @@ con.connect(function(err) {
     Fe_Own_Roll varchar(7),                                     \
     Fe_Ren_Roll varchar(7),                                     \
     PRIMARY KEY (feedback_date, Fe_Own_Roll, Fe_Ren_Roll),      \
-    FOREIGN KEY (Fe_Own_Roll) REFERENCES Owner(Own_Roll_Number),\
-    FOREIGN KEY (Fe_Ren_Roll) REFERENCES Renter(Ren_Roll_Number)\
+    FOREIGN KEY (Fe_Own_Roll) REFERENCES Owner(Own_Roll_Number) on delete set null, \
+    FOREIGN KEY (Fe_Ren_Roll) REFERENCES Renter(Ren_Roll_Number) on delete set null \
   );"
   con.query(sql, function (err, result) {
     if (err) throw err
     console.log("Table created")
   })
 
-  var sql = "CREATE TABLE Fine                                  \
+  sql = "CREATE TABLE if not exists                             \
+  Fine                                                          \
   (                                                             \
     Fine_id INT AUTO_INCREMENT NOT NULL,                        \
     Crossed_time varchar(5) NOT NULL,                           \
@@ -88,8 +93,8 @@ con.connect(function(err) {
     Fi_Own_Roll varchar(7),                                     \
     Fi_Ren_Roll varchar(7),                                     \
     PRIMARY KEY (Fine_id, Fi_Own_Roll, Fi_Ren_Roll),            \
-    FOREIGN KEY (Fi_Own_Roll) REFERENCES Owner(Own_Roll_Number),\
-    FOREIGN KEY (Fi_Ren_Roll) REFERENCES Renter(Ren_Roll_Number)\
+    FOREIGN KEY (Fi_Own_Roll) REFERENCES Owner(Own_Roll_Number) on delete set null, \
+    FOREIGN KEY (Fi_Ren_Roll) REFERENCES Renter(Ren_Roll_Number) on delete set null \
   );"
   con.query(sql, function (err, result) {
     if (err) throw err
