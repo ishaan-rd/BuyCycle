@@ -7,17 +7,9 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get((req, res, next) => {
-    res.statusCode = 200
-    res.render('feedback', { title: 'Feedback' })
-})
-.post((req, res, next) => {
-    
-})
-.put((req, res, next) => {
-
-})
-.delete((req, res, next) => {
-    
+    req.logout()
+    req.session.destroy()
+    res.redirect('/signin')
 })
 
 module.exports = router
