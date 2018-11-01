@@ -1,0 +1,24 @@
+{{> header }}
+
+<div class="container" style="margin: auto">
+
+    <h1>{{title}}</h1>
+
+    <form class="form-signin" method="POST" action="/signin">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Enter username (E.g. 16CO101)">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <div>
+            <small>Don't have an account? <a href="signup">Sign Up</a></small>
+        </div>
+    </form>
+
+</div>
+
+{{> footer-end }}
