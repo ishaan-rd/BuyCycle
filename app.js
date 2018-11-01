@@ -24,7 +24,6 @@ const rentRouter = require('./routes/rent')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
 const transationsRouter = require('./routes/transactions')
-const usersRouter = require('./routes/users')
 
 const port = 3001;
 
@@ -75,7 +74,6 @@ app.use('/rent', rentRouter)
 app.use('/signin', signinRouter)
 app.use('/signup', signupRouter)
 app.use('/transactions', transationsRouter)
-app.use('/users', usersRouter)
 
 // authentication for login
 passport.use(new LocalStrategy(

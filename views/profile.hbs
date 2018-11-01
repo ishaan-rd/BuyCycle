@@ -1,0 +1,61 @@
+{{> header}}
+
+    <div class="container">
+
+        <h1>{{title}}</h1>
+
+        {{!-- display the user details if already filled --}}
+
+        {{!-- display this form only if the details are not filled first time --}}
+        <form method="POST" action="/profile">
+            <div style="margin-top: 20px; margin-bottom: 20px">
+                <div>
+                    <p>Choose whether you're an Owner or a Renter</p>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" onclick="yesCheck()" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline1">Owner</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" onclick="noCheck()" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline2">Renter</label>
+                </div>
+            </div>
+            <div id="ifYes" style="margin-top: 20px; margin-bottom: 20px; display: none">
+                <div>
+                    <p>Choose whether you have a geared or non-geared cycle</p>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline3">Geared</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline4">Non-Geared</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        function yesCheck() {
+            if (document.getElementById('customRadioInline1').checked) {
+                document.getElementById('ifYes').style.display = 'block';
+            } else {
+                document.getElementById('ifYes').style.display = 'none';
+
+            }
+        }
+        function noCheck() {
+            if (document.getElementById('customRadioInline2').checked) {
+                document.getElementById('ifYes').style.display = 'none';
+            } else {
+                document.getElementById('ifYes').style.display = 'block';
+
+            }
+        }
+    </script>
+
+{{> footer-end}}

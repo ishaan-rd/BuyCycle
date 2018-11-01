@@ -7,7 +7,7 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get((req, res, next) => {
-
+    res.render('profile', { title: 'Profile' })
 })
 .post((req, res, next) => {
     
