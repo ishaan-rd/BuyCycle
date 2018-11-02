@@ -64,8 +64,7 @@ module.exports = {
       end_time TIME,                                      \
       availability varchar(5),                            \
       bi_own_roll varchar(7),                             \
-      PRIMARY KEY (bicycle_id, bi_own_roll),              \
-      FOREIGN KEY (bi_own_roll) REFERENCES users(username)\
+      PRIMARY KEY (bicycle_id, bi_own_roll)               \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
@@ -80,9 +79,7 @@ module.exports = {
       ratings INT NOT NULL,                                       \
       fe_own_roll varchar(7),                                     \
       fe_ren_roll varchar(7),                                     \
-      PRIMARY KEY (feedback_date, fe_own_roll, fe_ren_roll),      \
-      FOREIGN KEY (fe_own_roll) REFERENCES users(username),        \
-      FOREIGN KEY (fe_ren_roll) REFERENCES users(username)         \
+      PRIMARY KEY (feedback_date, fe_own_roll, fe_ren_roll)       \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
@@ -98,9 +95,7 @@ module.exports = {
       amount INT NOT NULL,                                        \
       fi_own_roll varchar(7) NOT NULL,                            \
       fi_ren_roll varchar(7) NOT NULL,                            \
-      PRIMARY KEY (fine_id, fi_own_roll, fi_ren_roll),            \
-      FOREIGN KEY (fi_own_roll) REFERENCES users(username),        \
-      FOREIGN KEY (fi_ren_roll) REFERENCES users(username)         \
+      PRIMARY KEY (fine_id, fi_own_roll, fi_ren_roll)             \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
@@ -114,9 +109,7 @@ module.exports = {
       amount INT NOT NULL,                                        \
       re_own_roll varchar(7) NOT NULL,                            \
       re_ren_roll varchar(7) NOT NULL,                            \
-      PRIMARY KEY (rent_id, re_own_roll, re_ren_roll),            \
-      FOREIGN KEY (re_own_roll) REFERENCES users(username),        \
-      FOREIGN KEY (re_ren_roll) REFERENCES users(username)         \
+      PRIMARY KEY (rent_id, re_own_roll, re_ren_roll)             \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
