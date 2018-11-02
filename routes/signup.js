@@ -30,7 +30,7 @@ router.route('/')
     // req.checkBody("password", "Password must include one lowercase character, one uppercase character, a number, and a special character.").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/, "i")
     req.checkBody('passwordMatch', 'Passwords do not match, please try again.').equals(req.body.password)
     // Additional validation to ensure username is alphanumeric with underscores and dashes
-    // req.checkBody('username', 'Username can only contain letters, numbers, or underscores.').matches(/^[A-Za-z0-9_-]+$/, 'i');
+    req.checkBody('username', 'Username not matching the required format (16CO101)').matches(/[1][5-8][A-Z][A-Z][1-2][0-9][0-9]/);
 
     const errors = req.validationErrors();
 

@@ -22,7 +22,6 @@ router.route('/')
 .post(passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/signin',
-    failureFlash: 'Invalid Username or Password'
 }))
 
 module.exports = router
