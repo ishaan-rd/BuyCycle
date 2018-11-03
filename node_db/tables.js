@@ -58,7 +58,7 @@ module.exports = {
     bicycle                                               \
     (                                                     \
       bicycle_id INT AUTO_INCREMENT,                      \
-      geared varchar(5),                                  \
+      geared varchar(10),                                  \
       rent_rate INT,                                      \
       start_time TIME,                                    \
       end_time TIME,                                      \

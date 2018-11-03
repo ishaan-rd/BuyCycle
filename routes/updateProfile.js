@@ -38,7 +38,9 @@ router.route('/')
     }
     if ('role' in req.body) {
         const role = req.body.role
-        console.log('role = ', req.body)
+        var bi_own_roll = ''
+        console.log('role =', req.body.role)
+
         db.query('update users set role = ? where id = ' + req.user.user_id, [role],
         (error, results, fields) => {
             if (error) {
@@ -47,10 +49,9 @@ router.route('/')
                 var gear = req.body.optGear
                 var start_time = req.body.start_time
                 var end_time = req.body.end_time
-                var bi_own_roll = ''
         
                 var rent = 0
-                if (gear === true) {
+                if (gear === 'geared') {
                     rent = 15
                 } else {
                     rent = 10
@@ -70,7 +71,7 @@ router.route('/')
                             if (error) throw error
 
                             if (results.length > 0) {
-                                db.query('update bicycle set geared = ?, start_time = ?, end_time = ? where bi_own_roll = ?', [gear, start_time, end_time, bi_own_roll],
+                                db.query('update bicycle set geared = ?, rent_rate = ?, start_time = ?, end_time = ? where bi_own_roll = ?', [gear, rent, start_time, end_time, bi_own_roll],
                                 (error, results, fields) => {
                                     if (error) throw error
                                 })
@@ -86,6 +87,19 @@ router.route('/')
                             }
                         })
                     }
+                })
+            } else if (role === 'renter') {
+                db.query('select username from users where id = ?', [req.user.user_id],
+                (error, results, fields) => {
+                    if (error) throw error
+
+                    bi_own_roll = results[0].username
+
+                    db.query('delete from bicycle where bi_own_roll = ?', [bi_own_roll], (error, results, fields) => {
+                        if (error) throw error
+
+                        console.log('updated from owner to renter')
+                    })
                 })
             }
         })

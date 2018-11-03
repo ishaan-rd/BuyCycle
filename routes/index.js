@@ -11,11 +11,13 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    if (res.locals.isAuthenticated) {
-        res.render('index', { title: 'Index' })
-    } else {
-        res.redirect('/signin')
-    }
+    db.query('select b.geared, b.rent_rate, b.start_time, b.end_time, u.name, u.phone_number, u.email from bicycle b, users u where b.bi_own_roll = u.username',
+    (error, results, fields) => {
+        if (error) throw error
+        // console.log(results)
+        
+        res.render('index', { results: results})
+    })
 })
 .post((req, res, next) => {
     

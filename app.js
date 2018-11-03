@@ -80,6 +80,7 @@ app.use('/updateProfile', updateProfileRouter)
 // authentication for login
 passport.use(new LocalStrategy(
     function(username, password, done) {
+        console.log(username.length)
         db.query('select id, password from users where username = ?', [username], (err, results, fields) => {
             if (err) {done(err)}
 

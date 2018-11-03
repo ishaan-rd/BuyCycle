@@ -46,7 +46,7 @@ router.route('/')
         var bi_own_roll = ''
 
         var rent = 0
-        if (gear === true) {
+        if (gear === 'geared') {
             rent = 15
         } else {
             rent = 10

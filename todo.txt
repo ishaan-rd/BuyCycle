@@ -1,4 +1,8 @@
-implement all routes
-implement front-end - see 'fetch' API in react
-understand how to render pages and from where - routes and fetch API
+implement index page differently for owner, renter and admin
+feedback form for renter and feedback views of all feedbacks for owner, renter
+implement 'Rent This' functionality - show to renter that he has rented a cycle and to owner that his cycle is rented - availability field in bicycle relation of database
+delete account option from profile
+flag a fine option for owner
+admin sees all tables and can delete accounts
+give feedback after returning the bicycle only and to that user only - try doing this in the rent route maybe
 create database, tables and insertion of dummy values using a JS file
