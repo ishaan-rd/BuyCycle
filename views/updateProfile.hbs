@@ -4,21 +4,13 @@
 
         <h1>{{title}}</h1>
 
-        <form method="POST" action="/updateProfile">
-        {{!-- display the user details if already filled --}}
-        {{#if exists}}
+        <form method="POST" action="/profile">
+        
             <div style="margin-top: 20px; margin-bottom: 20px">
                 <div style="margin-top: 20px">
-                    <h2>Hello {{name}}!</h2>
-                    <p>Have a look around the app or update/change your details</p>
+                    <h3>Please fill only those fields that you'd like to update</h3>
+                    <small>The other fields can be left blank</small>
                 </div>
-                <button type="update" class="btn btn-primary" style="display: block; margin-top: 20px">Update Details</button>
-            </div>
-        </form>
-        {{!-- display this form only if the details are not filled first time --}}
-        {{else}}
-        <form method="POST" action="/profile">
-            <div style="margin-top: 20px; margin-bottom: 20px">
                 <div class="form-group" style="margin-top: 20px">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Full Name" style="width: 230px">
@@ -59,7 +51,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
-        {{/if}}
+
         </form>
 
     </div>
