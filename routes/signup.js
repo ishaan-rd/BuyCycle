@@ -10,7 +10,7 @@ const auth = require('../authenticate.js')
 const brcypt = require('bcrypt')
 const saltRounds = 10
 
-const db = require('../db.js')
+const execute = require('../node_db/executeQuery')
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -21,7 +21,7 @@ router.route('/')
     console.log(req.user)
     console.log(req.isAuthenticated())
 })
-.post((req, res, next) => {
+.post(async (req, res, next) => {
     req.checkBody('username', 'Username field cannot be empty.').notEmpty()
     req.checkBody('username', 'Username must be between 4-15 characters long.').len(7)
     req.checkBody('email', 'The email you entered is invalid, please try again.').isEmail()
@@ -45,6 +45,17 @@ router.route('/')
         const username = req.body.username
         const email = req.body.email
         const password = req.body.password
+
+        try {
+            var uname = await execute.result('select * from users where username = ?', [username])
+        }
+        catch(err) {
+            throw err
+        }
+
+        if (uname.length > 0) {
+            res.render('error', { message: 'Username already taken' })
+        }
 
         brcypt.hash(password, saltRounds, (err, hash) => {
             db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hash], (error, results, fields) => {
