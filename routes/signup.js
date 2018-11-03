@@ -10,7 +10,7 @@ const auth = require('../authenticate.js')
 const brcypt = require('bcrypt')
 const saltRounds = 10
 
-const execute = require('../node_db/executeQuery')
+const db = require('../db')
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -46,31 +46,32 @@ router.route('/')
         const email = req.body.email
         const password = req.body.password
 
-        try {
-            var uname = await execute.result('select * from users where username = ?', [username])
-        }
-        catch(err) {
-            throw err
-        }
+        db.query('select * from users where username = ?', [username], 
+        (error, results, fields) => {
+            console.log(results)
+            if (error) {
+                throw error
+            } else if (results.length > 0) {
+                res.render('signup', { title: 'Registration Error', errors: [{"msg":"Username already exists"}] })
+            } else {
+                brcypt.hash(password, saltRounds, (err, hash) => {
+                    console.log('hashing the password')
+                    db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hash],
+                    (error, results, fields) => {
+                        if (error) throw error
 
-        if (uname.length > 0) {
-            res.render('error', { message: 'Username already taken' })
-        }
+                        db.query('SELECT LAST_INSERT_ID() as user_id', (err, results, fields) => {
+                            if (err) throw err
 
-        brcypt.hash(password, saltRounds, (err, hash) => {
-            db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hash], (error, results, fields) => {
-                if (error) throw error
-
-                db.query('SELECT LAST_INSERT_ID() as user_id', (err, results, fields) => {
-                    if (err) throw err
-
-                    const user_id = results[0]
-                    console.log(results[0])
-                    req.login(user_id, (err) => {
-                        res.redirect('/')
+                            const user_id = results[0]
+                            console.log(results[0])
+                            req.login(user_id, (err) => {
+                                res.redirect('/')
+                            })
+                        })
                     })
                 })
-            })
+            }
         })
     }
 })

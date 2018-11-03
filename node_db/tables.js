@@ -17,7 +17,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("User created")
+      // console.log("User created")
     })
 
     // sql = "CREATE TABLE if not exists \
@@ -68,7 +68,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Bicycle created")
+      // console.log("Bicycle created")
     })
 
     sql = "CREATE TABLE if not exists                             \
@@ -83,7 +83,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Feedback created")
+      // console.log("Feedback created")
     })
 
     sql = "CREATE TABLE if not exists                             \
@@ -99,7 +99,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Fine created")
+      // console.log("Fine created")
     })
 
     sql = "CREATE TABLE if not exists                             \
@@ -113,7 +113,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Rent created")
+      // console.log("Rent created")
     })
   }
 }
