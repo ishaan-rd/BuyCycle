@@ -14,20 +14,20 @@ router.use(bodyParser.json());
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
     db.query('select * from users where id = ?', [req.user.user_id], (error, results, fields) => {
-        console.log(results)
+        // console.log(results)
         if (results[0].name) {
             res.render('profile', { title: 'Profile', exists: 'true', name: results[0].name })
         } else {
             res.render('profile', { title: 'Profile', exists: '' })
         }
     })
-    console.log(req.user.user_id)
+    // console.log(req.user.user_id)
 })
 .post(auth.authenticationMiddleware(), (req, res, next) => {
     const name = req.body.name
     const phone_number = req.body.phone
     const role = req.body.role
-    console.log(req.body.role)
+    console.log(req.body)
     
     db.query('update users set role = ?, name = ?, phone_number = ? where id = ' + req.user.user_id, [role, name, phone_number],
     (error, results, fields) => {
@@ -65,20 +65,14 @@ router.route('/')
                 db.query('insert into bicycle (geared, rent_rate, start_time, end_time, bi_own_roll) values (?, ?, ?, ?, ?)', [gear, rent, start_time, end_time, bi_own_roll], 
                 (error, results, fields) => {
                     if (error) {
-                        res.render('error', { message: error })
+                        throw error
                     } else {
-                        res.render('profile', {  })
+                        res.render('profile', { title: 'Profile' })
                     }
                 })
             }
         })
     }
-})
-.put((req, res, next) => {
-
-})
-.delete((req, res, next) => {
-    
-})
+});
 
 module.exports = router

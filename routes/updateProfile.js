@@ -16,8 +16,7 @@ router.route('/')
     res.render('updateProfile', { title: 'Update Your Profile' })
 })
 .post(auth.authenticationMiddleware(), (req, res, next) => {
-    console.log(req.body.name.length)
-    if (req.body.name.length >= 1) {
+    if (req.body.name != '') {
         const name = req.body.name
         db.query('update users set name = ? where id = ' + req.user.user_id, [name],
         (error, results, fields) => {
@@ -25,8 +24,9 @@ router.route('/')
                 res.render('error', { message: error })
             }
         })
+        console.log('updated name')
     }
-    if (req.body.phone.length >= 1) {
+    if (req.body.phone != '') {
         const phone_number = req.body.phone
         db.query('update users set phone_number = ? where id = ' + req.user.user_id, [phone_number],
         (error, results, fields) => {
@@ -34,9 +34,11 @@ router.route('/')
                 res.render('error', { message: error })
             }
         })
+        console.log('updated phone')
     }
-    if (req.body.role) {
-        role = req.body.role
+    if ('role' in req.body) {
+        const role = req.body.role
+        console.log('role = ', req.body)
         db.query('update users set role = ? where id = ' + req.user.user_id, [role],
         (error, results, fields) => {
             if (error) {
@@ -63,20 +65,34 @@ router.route('/')
                     } else {
                         bi_own_roll = results[0].username
                         console.log('username = ', bi_own_roll)
-        
-                        db.query('insert into bicycle (geared, rent_rate, start_time, end_time, bi_own_roll) values (?, ?, ?, ?, ?)', [gear, rent, start_time, end_time, bi_own_roll], 
-                        (error, results, fields) => {
-                            if (error) {
-                                res.render('error', { message: error })
+                        
+                        db.query('select * from bicycle where bi_own_roll = ?', [bi_own_roll], (error, results, fields) => {
+                            if (error) throw error
+
+                            if (results.length > 0) {
+                                db.query('update bicycle set geared = ?, start_time = ?, end_time = ? where bi_own_roll = ?', [gear, start_time, end_time, bi_own_roll],
+                                (error, results, fields) => {
+                                    if (error) throw error
+                                })
                             } else {
-                                res.render('profile', {  })
+                                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, bi_own_roll) values (?, ?, ?, ?, ?)', [gear, rent, start_time, end_time, bi_own_roll], 
+                                (error, results, fields) => {
+                                    if (error) {
+                                        res.render('error', { message: error })
+                                    } else {
+                                        console.log('role and bicycle updated')
+                                    }
+                                })
                             }
                         })
                     }
                 })
             }
         })
-    }    
+        console.log('updated role')
+    }
+    console.log('Go back to home page now')
+    res.redirect('/profile')
 })
 .put((req, res, next) => {
 
