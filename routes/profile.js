@@ -15,10 +15,12 @@ router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
     db.query('select * from users where id = ?', [req.user.user_id], (error, results, fields) => {
         // console.log(results)
-        if (results[0].name) {
-            res.render('profile', { title: 'Profile', exists: 'true', name: results[0].name })
+        if (results[0].username === 'admin') {
+            res.render('profile', { title: 'Admin Profile' })
+        } else if (results[0].name) {
+            res.render('profile', { title: 'Profile', exists: 'true' })
         } else {
-            res.render('profile', { title: 'Profile', exists: '' })
+            res.render('profile', { title: 'Profile', notexists: 'true' })
         }
     })
     // console.log(req.user.user_id)

@@ -1,6 +1,22 @@
 {{> header }}
 
-  {{#each results}}
+  {{!-- if admin --}}
+  {{#if all}}
+  {{#each all}}
+    <div class="container card">
+      <ul class="list-group list-group-flush" style="margin: 10px">
+        <li class="list-group-item active"><b>Name - {{this.name}}</b></li>
+        <li class="list-group-item">Username - {{this.username}}</li>
+        <li class="list-group-item">Role - {{this.role}}</li>
+        <li class="list-group-item">Email - {{this.email}}</li>
+        <li class="list-group-item">Phone - {{this.phone_number}}</li>
+      </ul>
+    </div>
+  {{/each}}
+  {{/if}}
+  {{!-- if renter --}}
+  {{#if result}}
+  {{#each result}}
     <div class="container card">
         <form method="POST" action="/">
           <ul class="list-group list-group-flush" style="margin: 10px">
@@ -13,9 +29,23 @@
             {{!-- hack to get rent_rate value --}}
             <input type="text" value={{this.rent_rate}} name="rentRate" style="display: none">
           </ul>
-          
         </form>
     </div>
   {{/each}}
+  {{/if}}
+  {{!-- if owner --}}
+  {{#if ownFields}}
+    <div class="container card">
+        <form method="POST" action="/">
+          <ul class="list-group list-group-flush" style="margin: 10px">
+            <li class="list-group-item active"><b>Your cycle is with {{ownFields.0.name}}</b></li>
+            <li class="list-group-item">To be returned by <span style="color: red">{{ownFields.0.end_time}}</span>.</li>
+            <li class="list-group-item">Renter's email: {{ownFields.0.email}}</li>
+            <li class="list-group-item">Renter's phone: {{ownFields.0.phone_number}}</li>
+            <li class="list-group-item">Want to file for a complaint or fine? <a href="/fine">Click Here</a> </li>
+          </ul>
+        </form>
+    </div>
+  {{/if}}
 
 {{> footer-end }}

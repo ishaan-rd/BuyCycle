@@ -41,8 +41,9 @@
             </div>
         </div>
     </form>
+    {{/if}}
     {{!-- display this form only if the details are not filled first time --}}
-    {{else}}
+    {{#if notexists}}
     <form method="POST" action="/updateProfile">
         <div style="margin-top: 20px; margin-bottom: 20px">
             <div class="form-group" style="margin-top: 20px">
@@ -85,8 +86,8 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
-    {{/if}}
     </form>
+    {{/if}}
 
 </div>
 

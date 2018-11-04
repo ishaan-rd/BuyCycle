@@ -23,7 +23,7 @@ router.route('/')
 })
 .post(async (req, res, next) => {
     req.checkBody('username', 'Username field cannot be empty.').notEmpty()
-    req.checkBody('username', 'Username must be between 4-15 characters long.').len(7)
+    req.checkBody('username', 'Username must be of the specified format').len(7)
     req.checkBody('email', 'The email you entered is invalid, please try again.').isEmail()
     req.checkBody('email', 'Email address must be between 4-100 characters long, please try again.').len(4, 100)
     req.checkBody('password', 'Password must be between 8-100 characters long.').len(8, 100)

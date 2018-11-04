@@ -12,12 +12,38 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    db.query('select * from bicycle b, users u where b.bi_own_roll = u.username and availability = "true"',
-    (error, results, fields) => {
+    db.query('select * from users where id = ?', [req.user.user_id], (error, results, fields) => {
         if (error) throw error
-        // console.log(results)
-        
-        res.render('index', { results: results})
+
+        if (results[0].username === 'admin') {
+            db.query('select * from users', (error, results, fields) => {
+                if (error) throw error
+
+                res.render('index', { all: results, result: '', ownFields: '' })
+            })
+        } else if (results[0].role === 'renter') {
+            db.query('select * from bicycle b, users u where b.bi_own_roll = u.username and availability = "true"',
+            (error, results, fields) => {
+                if (error) throw error
+                // console.log(results)
+                
+                res.render('index', { result: results, all: '', ownFields: '' })
+            })
+        } else if (results[0].role === 'owner') {
+            db.query('select * from rent where re_own_roll = ? order by rent_id desc limit 0,1', [results[0].username], (error, results, fields) => {
+                if (error) throw error
+
+                const ren_roll = results[0].re_ren_roll
+                db.query('select * from users u, bicycle b where u.username = ?', [ren_roll], (error, results, fields) => {
+                    if (error) throw error
+                    
+                    console.log(results[0])
+                    res.render('index', { ownFields: results, all: '', result: '' })
+                })
+            })
+        } else {
+            res.redirect('/profile')
+        }
     })
 })
 .post(auth.authenticationMiddleware(), (req, res, next) => {
@@ -41,12 +67,6 @@ router.route('/')
             })
         })
     })
-})
-.put((req, res, next) => {
-
-})
-.delete((req, res, next) => {
-    
 })
 
 module.exports = router
