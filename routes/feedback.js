@@ -36,25 +36,21 @@ router.route('/')
     } 
     today = yyyy + ':' + mm + ':' + dd
     
-    db.query(`select username from users where id = ${req.user.user_id}`, (error, results, fields) => {
+    db.query('select * from rent r, users u where u.id = ? and u.username = r.re_ren_roll', [req.user.user_id], (error, results, fields) => {
         if (error) throw error
 
+        // console.log('feed', results)
         const fe_ren_roll = results[0].username
+        const fe_own_roll = results[0].re_own_roll
         db.query('insert into feedback values (?, ?, ?, ?, ?)', [data, today, rating, fe_own_roll, fe_ren_roll],
         (error, results, fields) => {
             if (error) throw error
 
-            res.redirect('/')
+            res.redirect('/rent')
         })
 
     })
 
-})
-.put((req, res, next) => {
-
-})
-.delete((req, res, next) => {
-    
 })
 
 module.exports = router

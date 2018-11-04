@@ -16,6 +16,7 @@ var bcrypt = require('bcrypt')
 var createSchema = require('./node_db/tables.js')
 
 const indexRouter = require('./routes/index')
+const deleteProfileRouter = require('./routes/deleteProfile')
 const logoutRouter = require('./routes/logout')
 const feedbackRouter = require('./routes/feedback')
 const fineRouter = require('./routes/fine')
@@ -67,6 +68,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter)
 app.use('/index', indexRouter)
+app.use('/deleteProfile', deleteProfileRouter)
 app.use('/logout', logoutRouter)
 app.use('/feedback', feedbackRouter)
 app.use('/fine', fineRouter)
@@ -138,7 +140,7 @@ hbs.registerHelper('json', function(context) {
     return JSON.stringify(context, null, 2)
 })
 
-app.listen(process.env.PORT || port, () => console.log(`Server started running on port: ${port}`))
+app.listen(port, () => console.log(`Server started running on port: ${port}`))
 
 createSchema.createTables()
 

@@ -1,19 +1,20 @@
 {{> header }}
 
   {{#each results}}
-    <div class="container">
-      <div class="card">
+    <div class="container card">
         <form method="POST" action="/">
-          <h5 class="card-header">{{this.name}}</h5>
-          <div class="card-body">
-            <h5 class="card-title">{{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</h5>
-            <h5 class="card-text">Available from <span style="color: red">{{this.start_time}}</span> to <span style="color: red">{{this.end_time}}</span></h5>
-            <h6><small class="card-text">email: {{this.email}}</small></h6>
-            <h6><small class="card-text">phone: {{this.phone_number}}</small></h6>
-            <button type="submit" class="btn btn-primary" value="{{this.username}}" name="rentThis">Rent This</button>
-          </div>
+          <ul class="list-group list-group-flush" style="margin: 10px">
+            <li class="list-group-item active"><b>{{this.name}}</b></li>
+            <li class="list-group-item">{{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</li>
+            <li class="list-group-item">Available from <span style="color: red">{{this.start_time}}</span> to <span style="color: red">{{this.end_time}}</span></li>
+            <li class="list-group-item">email: {{this.email}}</li>
+            <li class="list-group-item">phone: {{this.phone_number}}</li>
+            <li class="list-group-item"><button type="submit" class="btn btn-primary" value={{this.username}} name="rentThis">Rent This</button></li>
+            {{!-- hack to get rent_rate value --}}
+            <input type="text" value={{this.rent_rate}} name="rentRate" style="display: none">
+          </ul>
+          
         </form>
-      </div>
     </div>
   {{/each}}
 

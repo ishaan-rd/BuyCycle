@@ -11,18 +11,22 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    res.render('rent', { title: 'Rent' })
+    db.query('select * from users u, bicycle b, rent r where r.re_own_roll = b.bi_own_roll and b.bi_own_roll = u.username and b.availability = "false" order by rent_id desc limit 0,1',
+    (error, results, fields) => {
+        if (error) throw error
 
-    db.query
+        // console.log('i wanna', results)
+        res.render('rent', {results: results})
+    })
 })
 .post((req, res, next) => {
-    
-})
-.put((req, res, next) => {
+    console.log('succ', req.body.returnCycle)
+    db.query('update bicycle set availability = "true" where bi_own_roll = ?', [req.body.returnCycle],
+    (error, results, fields) => {
+        if (error) throw error
 
-})
-.delete((req, res, next) => {
-    
+        res.redirect('/')
+    })
 })
 
 module.exports = router

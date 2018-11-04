@@ -2,18 +2,20 @@
 
     <div class="container">
 
-        <h1>{{title}}</h1>
+        <h1>Rent</h1>
 
         {{#each results}}
         <div class="container card">
             <form method="POST" action="/rent">
-                <h5 class="card-header">You have rented a cycle from {{this.name}}</h5>
-                <div class="card-body">
-                    <h5 class="card-title">cost of renting their {{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</h5>
-                    <h6><small class="card-text">email: {{this.email}}</small></h6>
-                    <h6><small class="card-text">phone: {{this.phone_number}}</small></h6>
-                    <button type="submit" class="btn btn-primary" value="{{this.username}}" name="returnCycle">Return</button>
-                </div>
+                <ul class="list-group list-group-flush" style="margin: 10px">
+                    <li class="list-group-item active"><b>You have rented a cycle from {{this.name}}</b></li>
+                    <li class="list-group-item">cost of renting their {{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</li>
+                    <li class="list-group-item">Return their bicycle by <span style="color: red">{{this.end_time}}</span></li>
+                    <li class="list-group-item">email: {{this.email}}</li>
+                    <li class="list-group-item">phone: {{this.phone_number}}</li>
+                    <li class="list-group-item"><a href="/feedback">Give Feedback</a> before returning?</li>
+                    <li class="list-group-item"><button type="submit" class="btn btn-primary" value="{{this.username}}" name="returnCycle">Return</button></li>
+                </ul>
             </form>
         </div>
         {{/each}}

@@ -15,9 +15,35 @@
             <button type="update" class="btn btn-primary" style="display: block; margin-top: 20px">Update Details</button>
         </div>
     </form>
+    <form method="POST" action="/deleteProfile">
+        <div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-top: 20px">Delete Account</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete your account?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>This action cannot be reverted. If you want to use our application again, you will have to re-register.</h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Yes!</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </form>
     {{!-- display this form only if the details are not filled first time --}}
     {{else}}
-    <form method="POST" action="/profile">
+    <form method="POST" action="/updateProfile">
         <div style="margin-top: 20px; margin-bottom: 20px">
             <div class="form-group" style="margin-top: 20px">
                 <label for="name">Name</label>
