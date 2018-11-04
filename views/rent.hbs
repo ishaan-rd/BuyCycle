@@ -1,0 +1,23 @@
+{{> header}}
+
+    <div class="container">
+
+        <h1>{{title}}</h1>
+
+        {{#each results}}
+        <div class="container card">
+            <form method="POST" action="/rent">
+                <h5 class="card-header">You have rented a cycle from {{this.name}}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">cost of renting their {{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</h5>
+                    <h6><small class="card-text">email: {{this.email}}</small></h6>
+                    <h6><small class="card-text">phone: {{this.phone_number}}</small></h6>
+                    <button type="submit" class="btn btn-primary" value="{{this.username}}" name="returnCycle">Return</button>
+                </div>
+            </form>
+        </div>
+        {{/each}}
+
+    </div>
+
+{{> footer-end}}

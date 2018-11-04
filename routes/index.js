@@ -11,7 +11,8 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    db.query('select b.geared, b.rent_rate, b.start_time, b.end_time, u.name, u.phone_number, u.email from bicycle b, users u where b.bi_own_roll = u.username',
+    db.query('select b.geared, b.rent_rate, b.start_time, b.end_time, u.username, u.name, u.phone_number, u.email \
+    from bicycle b, users u where b.bi_own_roll = u.username and availability = "true"',
     (error, results, fields) => {
         if (error) throw error
         // console.log(results)
@@ -19,8 +20,18 @@ router.route('/')
         res.render('index', { results: results})
     })
 })
-.post((req, res, next) => {
-    
+.post(auth.authenticationMiddleware(), (req, res, next) => {
+    console.log(this.rent_rate)
+    const own_roll = req.body.rentThis
+    // const rent = req.body.
+
+    db.query('update bicycle set availability = "false" where bi_own_roll = ?', [own_roll],
+    (error, results, fields) => {
+        if (error) throw error
+
+        // db.query('insert into rent (amount, re_own_roll, re_ren_roll) values (?, ?, ?)', [])
+        res.redirect('/rent');
+    })
 })
 .put((req, res, next) => {
 

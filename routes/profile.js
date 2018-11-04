@@ -62,7 +62,7 @@ router.route('/')
                 bi_own_roll = results[0].username
                 console.log('username = ', bi_own_roll)
 
-                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, bi_own_roll) values (?, ?, ?, ?, ?)', [gear, rent, start_time, end_time, bi_own_roll], 
+                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, availability, bi_own_roll) values (?, ?, ?, ?, "true", ?)', [gear, rent, start_time, end_time, bi_own_roll], 
                 (error, results, fields) => {
                     if (error) {
                         throw error

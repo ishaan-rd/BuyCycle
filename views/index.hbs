@@ -3,14 +3,16 @@
   {{#each results}}
     <div class="container">
       <div class="card">
-        <h5 class="card-header">{{this.name}}</h5>
-        <div class="card-body">
-          <h5 class="card-title">{{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</h5>
-          <h5 class="card-text">Available from <span style="color: red">{{this.start_time}}</span> to <span style="color: red">{{this.end_time}}</span></h5>
-          <h6><small class="card-text">email: {{this.email}}</small></h6>
-          <h6><small class="card-text">phone: {{this.phone_number}}</small></h6>
-          <a href="rent" class="btn btn-primary">Rent This</a>
-        </div>
+        <form method="POST" action="/">
+          <h5 class="card-header">{{this.name}}</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</h5>
+            <h5 class="card-text">Available from <span style="color: red">{{this.start_time}}</span> to <span style="color: red">{{this.end_time}}</span></h5>
+            <h6><small class="card-text">email: {{this.email}}</small></h6>
+            <h6><small class="card-text">phone: {{this.phone_number}}</small></h6>
+            <button type="submit" class="btn btn-primary" value="{{this.username}}" name="rentThis">Rent This</button>
+          </div>
+        </form>
       </div>
     </div>
   {{/each}}

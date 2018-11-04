@@ -76,7 +76,7 @@ router.route('/')
                                     if (error) throw error
                                 })
                             } else {
-                                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, bi_own_roll) values (?, ?, ?, ?, ?)', [gear, rent, start_time, end_time, bi_own_roll], 
+                                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, availability, bi_own_roll) values (?, ?, ?, ?, "true", ?)', [gear, rent, start_time, end_time, bi_own_roll], 
                                 (error, results, fields) => {
                                     if (error) {
                                         res.render('error', { message: error })
