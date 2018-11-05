@@ -1,0 +1,36 @@
+{{> header}}
+
+    <div class="container">
+
+        <h1>Fine</h1>
+
+        {{#if admin}}
+        {{#each results}}
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item active"><b>Cycle Owner - {{this.re_own_roll}}</b></li>
+                <li class="list-group-item">Cycle Renter - {{this.re_ren_roll}}</li>
+                <li class="list-group-item">Email - {{this.email}}</li>
+                <li class="list-group-item">Phone - {{this.phone_number}}</li>
+            </ul>
+        {{/each}}
+        {{/if}}
+
+        {{#each results}}
+        <div class="container card">
+            <form method="POST" action="/rent">
+                <ul class="list-group list-group-flush" style="margin: 10px">
+                    <li class="list-group-item active"><b>You have rented a cycle from {{this.name}}</b></li>
+                    <li class="list-group-item">cost of renting their {{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</li>
+                    <li class="list-group-item">Return their bicycle by <span style="color: red">{{this.end_time}}</span></li>
+                    <li class="list-group-item">email: {{this.email}}</li>
+                    <li class="list-group-item">phone: {{this.phone_number}}</li>
+                    <li class="list-group-item"><a href="/feedback">Give Feedback</a> before returning?</li>
+                    <li class="list-group-item"><button type="submit" class="btn btn-primary" value="{{this.username}}" name="returnCycle">Return</button></li>
+                </ul>
+            </form>
+        </div>
+        {{/each}}
+
+    </div>
+
+{{> footer-end}}

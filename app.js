@@ -5,7 +5,7 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 const db = require('./db')
-
+var flash = require('connect-flash')
 // authentication packages
 var session = require('express-session')
 var passport = require('passport')
@@ -65,6 +65,7 @@ app.use((req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated()
     next()
 })
+// app.use(flash())
 
 app.use('/', indexRouter)
 app.use('/index', indexRouter)
@@ -101,7 +102,6 @@ passport.use(new LocalStrategy(
         })
     }
 ))
-
 // catch 404 error
 app.use(function(req, res, next) {
     var err = new Error('Page Not Found')

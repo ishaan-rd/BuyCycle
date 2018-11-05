@@ -17,15 +17,16 @@ router.route('/')
 
             res.render('rent', { results: results, admin: 'true' })
         })
-    }
-    db.query('select * from users u, bicycle b, rent r where r.re_own_roll = b.bi_own_roll and b.bi_own_roll = u.username \
-    and b.availability = "false" and u.role = "renter" order by rent_id desc limit 0,1',
-    (error, results, fields) => {
-        if (error) throw error
+    } else {
+        db.query('select * from users u, bicycle b, rent r where r.re_own_roll = b.bi_own_roll and b.bi_own_roll = u.username \
+        and b.availability = "false" order by rent_id desc limit 0,1',
+    (   error, results, fields) => {
+            if (error) throw error
 
-        // console.log('i wanna', results)
-        res.render('rent', {results: results})
-    })
+            // console.log('i wanna', results)
+           res.render('rent', {results: results})
+        })
+    }
 })
 .post((req, res, next) => {
     // console.log(req.body.returnCycle)
