@@ -7,29 +7,47 @@
         {{#if admin}}
         {{#each results}}
             <ul class="list-group list-group-flush" style="margin: 10px">
-                <li class="list-group-item active"><b>Cycle Owner - {{this.re_own_roll}}</b></li>
-                <li class="list-group-item">Cycle Renter - {{this.re_ren_roll}}</li>
-                <li class="list-group-item">Email - {{this.email}}</li>
-                <li class="list-group-item">Phone - {{this.phone_number}}</li>
+                <li class="list-group-item active"><b>Cycle Owner - {{this.fi_own_roll}}</b></li>
+                <li class="list-group-item">Cycle Renter - {{this.fi_ren_roll}}</li>
+                <li class="list-group-item">Crossed Time - {{this.crossed_time}}</li>
+                <li class="list-group-item">Damaged - {{this.damage}}</li>
+                <li class="list-group-item">Amount - {{this.amount}}</li>
             </ul>
         {{/each}}
         {{/if}}
 
-        {{#each results}}
-        <div class="container card">
-            <form method="POST" action="/rent">
-                <ul class="list-group list-group-flush" style="margin: 10px">
-                    <li class="list-group-item active"><b>You have rented a cycle from {{this.name}}</b></li>
-                    <li class="list-group-item">cost of renting their {{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</li>
-                    <li class="list-group-item">Return their bicycle by <span style="color: red">{{this.end_time}}</span></li>
-                    <li class="list-group-item">email: {{this.email}}</li>
-                    <li class="list-group-item">phone: {{this.phone_number}}</li>
-                    <li class="list-group-item"><a href="/feedback">Give Feedback</a> before returning?</li>
-                    <li class="list-group-item"><button type="submit" class="btn btn-primary" value="{{this.username}}" name="returnCycle">Return</button></li>
-                </ul>
+        {{#if owner}}
+            <form method="POST" action="/fine">
+                <div style="margin-top: 20px; margin-bottom: 20px">
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Is your cycle damaged?</p>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="damageYes" name="damage" value="yes" class="custom-control-input">
+                        <label class="custom-control-label" for="damageYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="damageNo" name="damage" value="no" class="custom-control-input">
+                        <label class="custom-control-label" for="damageNo">No</label>
+                    </div>
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Has the renter crossed time?</p>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="crosstimeYes" name="time" value="yes" class="custom-control-input">
+                        <label class="custom-control-label" for="crosstimeYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="crosstimeNo" name="time" value="no" class="custom-control-input">
+                        <label class="custom-control-label" for="crosstimeNo">No</label>
+                    </div>
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Contact - <span style="color: red">9164703000</span></p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
             </form>
-        </div>
-        {{/each}}
+        {{/if}}
 
     </div>
 
