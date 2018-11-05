@@ -13,8 +13,27 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    res.statusCode = 200
-    res.render('feedback', { title: 'Feedback' })
+    if (req.user.user_id === 0) {
+        db.query('select * from feedback', (error, results, fields) => {
+            if (error) throw error
+
+            res.render('feedback', { title: 'Admin View of Feedbacks', admin: 'true', results: results})
+        })
+    } else {
+        db.query('select * from users u where u.id = ?', [req.user.user_id], (error, results, fields) => {
+            if (error) throw error
+
+            if (results[0].role === 'owner') {
+                db.query('select * from feedback where fe_own_roll = ?', [results[0].username], (error, results, fields) => {
+                    if (error) throw error
+
+                    res.render('feedback', { title: 'Feedbacks', results: results, owner: 'true' })
+                })
+            } else {
+                res.render('feedback', { title: 'Submit Feedback' })
+            }
+        })
+    }
 })
 .post(auth.authenticationMiddleware(), (req, res, next) => {
     const data = req.body.feedback

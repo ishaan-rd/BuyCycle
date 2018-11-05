@@ -1,6 +1,0 @@
-feedback form for renter and feedback views of all feedbacks for owner, renter
-flag a fine option for owner - route to be implemented
-admin sees all tables
-change users, feedback tables in database -
-    > remove feedback and ratings fields from users
-    > add auto increment id for feedback and remove feedback_date as primary key

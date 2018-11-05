@@ -4,7 +4,31 @@
 <div class="container">
     
     <h1>{{title}}</h1>
-    
+
+    {{#if admin}}
+    {{#each results}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item active"><b>Cycle Owner - {{this.fe_own_roll}}</b></li>
+                <li class="list-group-item">Cycle Renter - {{this.fe_ren_roll}}</li>
+                <li class="list-group-item">Renter's Ratings - {{this.ratings}}</li>
+                <li class="list-group-item">Renter's Feedback - {{this.feedback_data}}</li>
+            </ul>
+        </div>
+    {{/each}}
+    {{/if}}
+
+    {{#if owner}}
+    {{#each results}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item">Cycle Renter - {{this.fe_ren_roll}}</li>
+                <li class="list-group-item">Renter's Ratings - {{this.ratings}}</li>
+                <li class="list-group-item">Renter's Feedback - {{this.feedback_data}}</li>
+            </ul>
+        </div>
+    {{/each}}
+    {{else}}
     <form method="POST" action="/feedback">
     <div class="form-group" style="margin-top: 20px">
         <textarea type="text" class="form-control" name="feedback" placeholder="Write your feedback here" style="height: 230px"></textarea>
@@ -37,6 +61,7 @@
     </div>
     <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
     </form>
+    {{/if}}
 
 </div>
 

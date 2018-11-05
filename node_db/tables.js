@@ -11,9 +11,7 @@ module.exports = {
       password binary(60) NOT NULL,         \
       role varchar(6),                      \
       phone_number varchar(10) UNIQUE,      \
-      name varchar(50),                     \
-      feedback text,                        \
-      ratings int                           \
+      name varchar(50)                      \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
@@ -74,12 +72,13 @@ module.exports = {
     sql = "CREATE TABLE if not exists                             \
     feedback                                                      \
     (                                                             \
+      feedback_id  INT AUTO_INCREMENT,                            \
       feedback_data text NOT NULL,                                \
       feedback_date DATE NOT NULL,                                \
       ratings INT NOT NULL,                                       \
       fe_own_roll varchar(7),                                     \
       fe_ren_roll varchar(7),                                     \
-      PRIMARY KEY (feedback_date, fe_own_roll, fe_ren_roll)       \
+      PRIMARY KEY (feedback_id, fe_own_roll, fe_ren_roll)         \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
