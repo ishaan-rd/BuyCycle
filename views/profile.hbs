@@ -1,72 +1,111 @@
 {{> header}}
 
-    <div class="container">
+<div class="container">
 
-        <h1>{{title}}</h1>
+    <h1>{{title}}</h1>
 
-        {{!-- display the user details if already filled --}}
-
-        {{!-- display this form only if the details are not filled first time --}}
-        <form method="POST" action="/profile">
-            <div style="margin-top: 20px; margin-bottom: 20px">
-                <div class="form-group" style="margin-top: 20px">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Full Name" style="width: 230px">
+    {{!-- display the user details if already filled --}}
+    {{#if exists}}
+    <form method="GET" action="/updateProfile">
+        <div style="margin-top: 20px; margin-bottom: 20px">
+            <div style="margin-top: 20px">
+                <h2>Hello {{name}}!</h2>
+                <p>Have a look around the app or update/change your details</p>
+            </div>
+            <button type="update" class="btn btn-primary" style="display: block; margin-top: 20px">Update Details</button>
+        </div>
+    </form>
+    <form method="POST" action="/deleteProfile">
+        <div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-top: 20px">Delete Account</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete your account?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group" style="margin-top: 20px">
-                    <label for="phone">Phone Number</label>
-                    <input type="text" class="form-control" name="phone" placeholder="Phone Number" style="width: 230px">
+                <div class="modal-body">
+                    <h6>This action cannot be reverted. If you want to use our application again, you will have to re-register.</h6>
                 </div>
-                <div>
-                    <p>Choose whether you're an Owner or a Renter</p>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="owner" name="role" onclick="yesCheck()" value="owner" class="custom-control-input">
-                        <label class="custom-control-label" for="owner">Owner</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="renter" name="role" onclick="noCheck()" value="renter" class="custom-control-input">
-                        <label class="custom-control-label" for="renter">Renter</label>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Yes!</button>
+                </div>
                 </div>
             </div>
-            <div id="ifYes" style="margin-top: 20px; margin-bottom: 20px; display: none">
-                <div>
-                    <p>Choose whether you have a geared or non-geared cycle</p>
+            </div>
+        </div>
+    </form>
+    {{/if}}
+    {{!-- display this form only if the details are not filled first time --}}
+    {{#if notexists}}
+    <form method="POST" action="/updateProfile">
+        <div style="margin-top: 20px; margin-bottom: 20px">
+            <div class="form-group" style="margin-top: 20px">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Full Name" style="width: 230px">
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+                <label for="phone">Phone Number</label>
+                <input type="text" class="form-control" name="phone" placeholder="Phone Number" style="width: 230px">
+            </div>
+            <div>
+                <p>Choose whether you're an Owner or a Renter</p>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="owner" name="role" onclick="yesCheck()" value="owner" class="custom-control-input">
+                    <label class="custom-control-label" for="owner">Owner</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="geared" name="optGear" value="true" class="custom-control-input">
-                    <label class="custom-control-label" for="geared">Geared</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="nonGeared" name="optGear" value="false" class="custom-control-input">
-                    <label class="custom-control-label" for="nonGeared">Non-Geared</label>
-                </div>
-                <div class="form-group" style="margin-top: 20px">
-                    <label for="timings">Timings</label>
-                    <input type="text" class="form-control" name="start_time" placeholder="start-time (E.g. 17:30:00)" style="width: 230px">
-                    <input type="text" class="form-control" name="end_time" placeholder="end-time (E.g. 18:30:00)" style="width: 230px">
+                    <input type="radio" id="renter" name="role" onclick="noCheck()" value="renter" class="custom-control-input">
+                    <label class="custom-control-label" for="renter">Renter</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
-        </form>
+        </div>
+        <div id="ifYes" style="margin-top: 20px; margin-bottom: 20px; display: none">
+            <div>
+                <p>Choose whether you have a geared or non-geared cycle</p>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="geared" name="optGear" value="geared" class="custom-control-input">
+                <label class="custom-control-label" for="geared">Geared</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="nonGeared" name="optGear" value="non-geared" class="custom-control-input">
+                <label class="custom-control-label" for="nonGeared">Non-Geared</label>
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+                <label for="timings">Timings</label>
+                <small>No timings mentioned means available at all times</small>
+                <input type="text" class="form-control" name="start_time" placeholder="start-time (E.g. 17:30:00)" style="width: 230px">
+                <input type="text" class="form-control" name="end_time" placeholder="end-time (E.g. 18:30:00)" style="width: 230px">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
+    </form>
+    {{/if}}
 
-    </div>
+</div>
 
-    <script type="text/javascript">
-        function yesCheck() {
-            if (document.getElementById('owner').checked) {
-                document.getElementById('ifYes').style.display = 'block';
-            } else {
-                document.getElementById('ifYes').style.display = 'none';
-            }
+<script type="text/javascript">
+    function yesCheck() {
+        if (document.getElementById('owner').checked) {
+            document.getElementById('ifYes').style.display = 'block';
+        } else {
+            document.getElementById('ifYes').style.display = 'none';
         }
-        function noCheck() {
-            if (document.getElementById('renter').checked) {
-                document.getElementById('ifYes').style.display = 'none';
-            } else {
-                document.getElementById('ifYes').style.display = 'block';
-            }
+    }
+    function noCheck() {
+        if (document.getElementById('renter').checked) {
+            document.getElementById('ifYes').style.display = 'none';
+        } else {
+            document.getElementById('ifYes').style.display = 'block';
         }
-    </script>
+    }
+</script>
 
 {{> footer-end}}

@@ -1,4 +1,0 @@
-implement all routes
-implement front-end - see 'fetch' API in react
-understand how to render pages and from where - routes and fetch API
-create database, tables and insertion of dummy values using a JS file

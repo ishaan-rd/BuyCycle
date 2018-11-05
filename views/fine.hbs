@@ -1,0 +1,67 @@
+{{> header}}
+
+    <div class="container">
+
+        <h1>Fine</h1>
+
+        {{#if admin}}
+        {{#each results}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item active"><b>Cycle Owner - {{this.fi_own_roll}}</b></li>
+                <li class="list-group-item">Cycle Renter - {{this.fi_ren_roll}}</li>
+                <li class="list-group-item">Crossed Time - {{this.crossed_time}}</li>
+                <li class="list-group-item">Damaged - {{this.damage}}</li>
+                <li class="list-group-item">Amount - {{this.amount}}</li>
+            </ul>
+        </div>
+        {{/each}}
+        {{/if}}
+
+        {{#if owner}}
+            <form method="POST" action="/fine">
+                <div style="margin-top: 20px; margin-bottom: 20px">
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Is your cycle damaged?</p>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="damageYes" name="damage" value="yes" class="custom-control-input">
+                        <label class="custom-control-label" for="damageYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="damageNo" name="damage" value="no" class="custom-control-input">
+                        <label class="custom-control-label" for="damageNo">No</label>
+                    </div>
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Has the renter crossed time?</p>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="crosstimeYes" name="time" value="yes" class="custom-control-input">
+                        <label class="custom-control-label" for="crosstimeYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="crosstimeNo" name="time" value="no" class="custom-control-input">
+                        <label class="custom-control-label" for="crosstimeNo">No</label>
+                    </div>
+                    <div style="margin-top: 20px; margin-bottom: 20px">
+                        <p>Contact - <span style="color: red">9164703000</span></p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
+            </form>
+        {{/if}}
+
+        {{#each payfine}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item active"><b>Cycle Owner - {{this.fi_own_roll}}</b></li>
+                <li class="list-group-item">Crossed Time - {{this.crossed_time}}</li>
+                <li class="list-group-item">Damaged - {{this.damage}}</li>
+                <li class="list-group-item">You have to pay Amount - {{this.amount}}</li>
+            </ul>
+        </div>
+        {{/each}}
+
+    </div>
+
+{{> footer-end}}

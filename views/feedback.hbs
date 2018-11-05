@@ -1,6 +1,68 @@
+
 {{> header }}
 
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="container">
+    
+    <h1>{{title}}</h1>
+
+    {{#if admin}}
+    {{#each results}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item active"><b>Cycle Owner - {{this.fe_own_roll}}</b></li>
+                <li class="list-group-item">Cycle Renter - {{this.fe_ren_roll}}</li>
+                <li class="list-group-item">Renter's Ratings - {{this.ratings}}</li>
+                <li class="list-group-item">Renter's Feedback - {{this.feedback_data}}</li>
+            </ul>
+        </div>
+    {{/each}}
+    {{/if}}
+
+    {{#if owner}}
+    {{#each results}}
+        <div class="container card">
+            <ul class="list-group list-group-flush" style="margin: 10px">
+                <li class="list-group-item">Cycle Renter - {{this.fe_ren_roll}}</li>
+                <li class="list-group-item">Renter's Ratings - {{this.ratings}}</li>
+                <li class="list-group-item">Renter's Feedback - {{this.feedback_data}}</li>
+            </ul>
+        </div>
+    {{/each}}
+    {{else}}
+    <form method="POST" action="/feedback">
+    <div class="form-group" style="margin-top: 20px">
+        <textarea type="text" class="form-control" name="feedback" placeholder="Write your feedback here" style="height: 230px"></textarea>
+    </div>
+    
+    <div class="col-sm-12 form-group">
+        <div class="form-group" style="margin-top: 20px">
+            <label for="ownerRating">How do you rate this Owner</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="oneStar" name="rating" value="1" class="custom-control-input">
+            <label class="custom-control-label" for="oneStar">1</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="twoStar" name="rating" value="2" class="custom-control-input">
+            <label class="custom-control-label" for="twoStar">2</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="threeStar" name="rating" value="3" class="custom-control-input">
+            <label class="custom-control-label" for="threeStar">3</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="fourStar" name="rating" value="4" class="custom-control-input">
+            <label class="custom-control-label" for="fourStar">4</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="fiveStar" name="rating" value="5" class="custom-control-input">
+            <label class="custom-control-label" for="fiveStar">5</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px">Submit</button>
+    </form>
+    {{/if}}
+
+</div>
 
 {{> footer-end }}

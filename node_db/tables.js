@@ -11,13 +11,11 @@ module.exports = {
       password binary(60) NOT NULL,         \
       role varchar(6),                      \
       phone_number varchar(10) UNIQUE,      \
-      name varchar(50),                     \
-      feedback text,                        \
-      ratings int                           \
+      name varchar(50)                      \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("User created")
+      // console.log("User created")
     })
 
     // sql = "CREATE TABLE if not exists \
@@ -58,7 +56,7 @@ module.exports = {
     bicycle                                               \
     (                                                     \
       bicycle_id INT AUTO_INCREMENT,                      \
-      geared varchar(5),                                  \
+      geared varchar(10),                                  \
       rent_rate INT,                                      \
       start_time TIME,                                    \
       end_time TIME,                                      \
@@ -68,22 +66,23 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Bicycle created")
+      // console.log("Bicycle created")
     })
 
     sql = "CREATE TABLE if not exists                             \
     feedback                                                      \
     (                                                             \
+      feedback_id  INT AUTO_INCREMENT,                            \
       feedback_data text NOT NULL,                                \
       feedback_date DATE NOT NULL,                                \
       ratings INT NOT NULL,                                       \
       fe_own_roll varchar(7),                                     \
       fe_ren_roll varchar(7),                                     \
-      PRIMARY KEY (feedback_date, fe_own_roll, fe_ren_roll)       \
+      PRIMARY KEY (feedback_id, fe_own_roll, fe_ren_roll)         \
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Feedback created")
+      // console.log("Feedback created")
     })
 
     sql = "CREATE TABLE if not exists                             \
@@ -99,7 +98,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Fine created")
+      // console.log("Fine created")
     })
 
     sql = "CREATE TABLE if not exists                             \
@@ -113,7 +112,7 @@ module.exports = {
     );"
     db.query(sql, function (err, result) {
       if (err) throw err
-      console.log("Rent created")
+      // console.log("Rent created")
     })
   }
 }

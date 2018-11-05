@@ -5,7 +5,7 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 const db = require('./db')
-
+var flash = require('connect-flash')
 // authentication packages
 var session = require('express-session')
 var passport = require('passport')
@@ -16,6 +16,7 @@ var bcrypt = require('bcrypt')
 var createSchema = require('./node_db/tables.js')
 
 const indexRouter = require('./routes/index')
+const deleteProfileRouter = require('./routes/deleteProfile')
 const logoutRouter = require('./routes/logout')
 const feedbackRouter = require('./routes/feedback')
 const fineRouter = require('./routes/fine')
@@ -24,6 +25,7 @@ const rentRouter = require('./routes/rent')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
 const transationsRouter = require('./routes/transactions')
+const updateProfileRouter = require('./routes/updateProfile')
 
 const port = 3001;
 
@@ -63,9 +65,11 @@ app.use((req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated()
     next()
 })
+// app.use(flash())
 
 app.use('/', indexRouter)
 app.use('/index', indexRouter)
+app.use('/deleteProfile', deleteProfileRouter)
 app.use('/logout', logoutRouter)
 app.use('/feedback', feedbackRouter)
 app.use('/fine', fineRouter)
@@ -74,10 +78,12 @@ app.use('/rent', rentRouter)
 app.use('/signin', signinRouter)
 app.use('/signup', signupRouter)
 app.use('/transactions', transationsRouter)
+app.use('/updateProfile', updateProfileRouter)
 
 // authentication for login
 passport.use(new LocalStrategy(
     function(username, password, done) {
+        console.log(username.length)
         db.query('select id, password from users where username = ?', [username], (err, results, fields) => {
             if (err) {done(err)}
 
@@ -96,7 +102,6 @@ passport.use(new LocalStrategy(
         })
     }
 ))
-
 // catch 404 error
 app.use(function(req, res, next) {
     var err = new Error('Page Not Found')
@@ -135,7 +140,7 @@ hbs.registerHelper('json', function(context) {
     return JSON.stringify(context, null, 2)
 })
 
-app.listen(process.env.PORT || port, () => console.log(`Server started running on port: ${port}`))
+app.listen(port, () => console.log(`Server started running on port: ${port}`))
 
 createSchema.createTables()
 

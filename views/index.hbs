@@ -1,14 +1,51 @@
 {{> header }}
 
-    <div class="container">
-      <div class="card">
-        <h5 class="card-header">{{Owner}}</h5>
-        <div class="card-body">
-          <h5 class="card-title">{{geared}} cycle - Rs. {{cost}} per hour.</h5>
-          <p class="card-text">Available from {{start-time}} to {{end-time}}.</p>
-          <a href="#" class="btn btn-primary">Rent This</a>
-        </div>
-      </div>
+  {{!-- if admin --}}
+  {{#if all}}
+  {{#each all}}
+    <div class="container card">
+      <ul class="list-group list-group-flush" style="margin: 10px">
+        <li class="list-group-item active"><b>Name - {{this.name}}</b></li>
+        <li class="list-group-item">Username - {{this.username}}</li>
+        <li class="list-group-item">Role - {{this.role}}</li>
+        <li class="list-group-item">Email - {{this.email}}</li>
+        <li class="list-group-item">Phone - {{this.phone_number}}</li>
+      </ul>
     </div>
+  {{/each}}
+  {{/if}}
+  {{!-- if renter --}}
+  {{#if result}}
+  {{#each result}}
+    <div class="container card">
+        <form method="POST" action="/">
+          <ul class="list-group list-group-flush" style="margin: 10px">
+            <li class="list-group-item active"><b>{{this.name}}</b></li>
+            <li class="list-group-item">{{this.geared}} cycle - Rs. {{this.rent_rate}} per hour.</li>
+            <li class="list-group-item">Available from <span style="color: red">{{this.start_time}}</span> to <span style="color: red">{{this.end_time}}</span></li>
+            <li class="list-group-item">email: {{this.email}}</li>
+            <li class="list-group-item">phone: {{this.phone_number}}</li>
+            <li class="list-group-item"><button type="submit" class="btn btn-primary" value={{this.username}} name="rentThis">Rent This</button></li>
+            {{!-- hack to get rent_rate value --}}
+            <input type="text" value={{this.rent_rate}} name="rentRate" style="display: none">
+          </ul>
+        </form>
+    </div>
+  {{/each}}
+  {{/if}}
+  {{!-- if owner --}}
+  {{#if ownFields}}
+    <div class="container card">
+        <form method="POST" action="/">
+          <ul class="list-group list-group-flush" style="margin: 10px">
+            <li class="list-group-item active"><b>Your cycle is with {{ownFields.0.name}}</b></li>
+            <li class="list-group-item">To be returned by <span style="color: red">{{ownFields.0.end_time}}</span>.</li>
+            <li class="list-group-item">Renter's email: {{ownFields.0.email}}</li>
+            <li class="list-group-item">Renter's phone: {{ownFields.0.phone_number}}</li>
+            <li class="list-group-item">Want to file for a complaint or fine? <a href="/fine">Click Here</a> </li>
+          </ul>
+        </form>
+    </div>
+  {{/if}}
 
 {{> footer-end }}
