@@ -61,7 +61,7 @@ router.route('/')
         // console.log('feed', results)
         const fe_ren_roll = results[0].username
         const fe_own_roll = results[0].re_own_roll
-        db.query('insert into feedback values (?, ?, ?, ?, ?)', [data, today, rating, fe_own_roll, fe_ren_roll],
+        db.query('insert into feedback (feedback_data, feedback_date, ratings, fe_own_roll, fe_ren_roll) values (?, ?, ?, ?, ?)', [data, today, rating, fe_own_roll, fe_ren_roll],
         (error, results, fields) => {
             if (error) throw error
 
