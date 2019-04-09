@@ -7,9 +7,6 @@ const expressValidator = require('express-validator')
 const passport = require('passport')
 const auth = require('../authenticate.js')
 
-const brcypt = require('bcrypt')
-const saltRounds = 10
-
 const db = require('../db')
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -42,37 +39,7 @@ router.route('/')
             errors: errors
         })
     } else {
-        const username = req.body.username
-        const email = req.body.email
-        const password = req.body.password
-
-        db.query('select * from users where username = ?', [username], 
-        (error, results, fields) => {
-            console.log(results)
-            if (error) {
-                throw error
-            } else if (results.length > 0) {
-                res.render('signup', { title: 'Registration Error', errors: [{"msg":"Username already exists"}] })
-            } else {
-                brcypt.hash(password, saltRounds, (err, hash) => {
-                    console.log('hashing the password')
-                    db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hash],
-                    (error, results, fields) => {
-                        if (error) throw error
-
-                        db.query('SELECT LAST_INSERT_ID() as user_id', (err, results, fields) => {
-                            if (err) throw err
-
-                            const user_id = results[0]
-                            console.log(results[0])
-                            req.login(user_id, (err) => {
-                                res.redirect('/')
-                            })
-                        })
-                    })
-                })
-            }
-        })
+        auth.postSignUp(req, res, next)
     }
 })
 passport.serializeUser(function(user_id, done) {

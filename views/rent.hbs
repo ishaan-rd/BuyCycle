@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <h1>Rent</h1>
+        <h1>Rents</h1>
 
         {{#if admin}}
         {{#each results}}
@@ -15,7 +15,7 @@
             </ul>
         </div>
         {{/each}}
-        {{else}}
+        {{else if renter}}
         {{#each results}}
         <div class="container card">
             <form method="POST" action="/rent">

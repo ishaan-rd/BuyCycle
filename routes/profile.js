@@ -13,68 +13,11 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(auth.authenticationMiddleware(), (req, res, next) => {
-    db.query('select * from users where id = ?', [req.user.user_id], (error, results, fields) => {
-        // console.log(results)
-        if (results[0].username === 'admin') {
-            res.render('profile', { title: 'Admin Profile' })
-        } else if (results[0].name) {
-            res.render('profile', { title: 'Profile', exists: 'true' })
-        } else {
-            res.render('profile', { title: 'Profile', notexists: 'true' })
-        }
-    })
+    auth.getProfile(req, res, next)
     // console.log(req.user.user_id)
 })
 .post(auth.authenticationMiddleware(), (req, res, next) => {
-    const name = req.body.name
-    const phone_number = req.body.phone
-    const role = req.body.role
-    console.log(req.body)
-    
-    db.query('update users set role = ?, name = ?, phone_number = ? where id = ' + req.user.user_id, [role, name, phone_number],
-    (error, results, fields) => {
-        if (error) {
-            res.render('error', { message: error })
-        } else {
-            console.log('updated profile')
-            res.redirect('/profile')
-        }
-    })
-
-    if (role === 'owner') {
-        var gear = req.body.optGear
-        var start_time = req.body.start_time
-        var end_time = req.body.end_time
-        var bi_own_roll = ''
-
-        var rent = 0
-        if (gear === 'geared') {
-            rent = 15
-        } else {
-            rent = 10
-        }
-        console.log(gear, rent, start_time, end_time)
-
-        // get owner's roll number
-        db.query('select username from users where id = ' + req.user.user_id,
-        (error, results, fields) => {
-            if (error) {
-                res.render('error', { message: error })
-            } else {
-                bi_own_roll = results[0].username
-                console.log('username = ', bi_own_roll)
-
-                db.query('insert into bicycle (geared, rent_rate, start_time, end_time, availability, bi_own_roll) values (?, ?, ?, ?, "true", ?)', [gear, rent, start_time, end_time, bi_own_roll], 
-                (error, results, fields) => {
-                    if (error) {
-                        throw error
-                    } else {
-                        res.render('profile', { title: 'Profile' })
-                    }
-                })
-            }
-        })
-    }
+    auth.postProfile(req, res, next)
 })
 
 module.exports = router
